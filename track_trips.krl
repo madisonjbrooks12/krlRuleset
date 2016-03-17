@@ -11,7 +11,7 @@ Second ruleset for part 1 of Reactive Programming lab
   global {
   }
   rule process_trip {
-    select when echo message
+    select when car new_trip
     pre {
       mileage = event:attr("mileage").klog("our passed in mileage: ");
     }
