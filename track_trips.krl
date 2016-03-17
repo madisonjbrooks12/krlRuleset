@@ -32,7 +32,7 @@ Second ruleset for part 1 of Reactive Programming lab
       mileage = event:attr("mileage").klog("find_long_trips mileage: ");
       mileage_num = mileage.decode();
     }
-    if (mileage > long_trip) then {
+    if (mileage_num > long_trip) then {
       log ("LOG raising explicit event found_long_trip");
     }
     fired {
