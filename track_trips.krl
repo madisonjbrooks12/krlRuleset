@@ -22,7 +22,7 @@ Second ruleset for part 1 of Reactive Programming lab
     }
     always {
       raise explicit event 'trip_processed'
-        attributes mileage;
+        attributes event:attrs();
       log ("LOG says " + mileage);
     }
   }
