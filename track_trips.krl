@@ -33,6 +33,8 @@ Second ruleset for part 1 of Reactive Programming lab
       mileage_num = mileage.as("num");
     }
     if (mileage_num > long_trip) then {
+      send_directive("say") with
+        something = "Mileage large enough to be long trip";
     }
     fired {
       log ("LOG raising event found_long_trip");
