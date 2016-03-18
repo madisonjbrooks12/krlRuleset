@@ -33,7 +33,7 @@ Second ruleset for part 1 of Reactive Programming lab
       mileage_num = mileage.as("num");
     }
     if (mileage_num > long_trip) then {
-      log ("LOG says raising explicit event found_long_trip");
+      log ("LOG says " + mileage_num);
     }
     fired {
       raise explicit event 'found_long_trip';
