@@ -30,7 +30,7 @@ Second ruleset for part 1 of Reactive Programming lab
     select when explicit trip_processed
     pre {
       mileage = event:attr("mileage").klog("find_long_trips mileage: ");
-      mileage_num = mileage.decode();
+      mileage_num = mileage.as("num");
     }
     if (mileage_num > long_trip) then {
       log ("LOG raising explicit event found_long_trip");
