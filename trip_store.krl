@@ -7,6 +7,8 @@ A rulset which stores trip information
     author "Madison Brooks"
     logging on
     sharing on
+    provides all_trips
+    provides long_trips
   }
   global {
     all_trips = function() {
