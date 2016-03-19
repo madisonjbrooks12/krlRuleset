@@ -38,7 +38,8 @@ Second ruleset for part 1 of Reactive Programming lab
     }
     fired {
       log ("LOG raising event found_long_trip");
-      raise explicit event 'found_long_trip';
+      raise explicit event 'found_long_trip'
+        attributes event:attrs();
     }
     else {
       log ("LOG says mileage not long enough for a long trip");
