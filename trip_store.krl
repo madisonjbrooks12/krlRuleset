@@ -24,7 +24,7 @@ A rulset which stores trip information
     short_trips = function() {
       all = ent:trips;
       long = ent:long;
-      short = all.difference(long);
+      short = all.filter(function(k,v){v["mileage"].as("num") <= 200});
       short
     };
   }
