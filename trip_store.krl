@@ -37,9 +37,11 @@ A rulset which stores trip information
                     "mileage" : "0"
                     }
               };
-      new_trip = {
+      new_trip = [{
+                  "timestamp" : timestamp_str,
                   "mileage" : mileage
-                  };
+                  }];
+      trips = trips();
     }
     {
       send_directive("collect") with
@@ -47,8 +49,7 @@ A rulset which stores trip information
       time_now = timestamp_str;
     }
     always {
-      set ent:trips init if not ent:trips{["_0"]};
-      set ent:trips{[timestamp_str]} new_trip;
+      set ent:trips trips.append(new_trip);
     }
   }
   rule collect_long_trips {
@@ -61,9 +62,11 @@ A rulset which stores trip information
                     "mileage" : "0"
                     }
               };
-      new_trip = {
+      new_trip = [{
+                  "timestamp" : timestamp_str,
                   "mileage" : mileage
-                  };
+                  }];
+      long = long_trips();
     }
     {
       send_directive("collect_long") with
@@ -71,8 +74,7 @@ A rulset which stores trip information
       time_now = timestamp_str;
     }
     always {
-      set ent:long init if not ent:long{["_0"]};
-      set ent:long{[timestamp_str]} new_trip;
+      set ent:long long.append(new_trip);
     }
   }
   rule clear_trips {
@@ -84,8 +86,8 @@ A rulset which stores trip information
               };
     }
     always {
-      set ent:trips init;
-      set ent:long init;
+      set ent:trips [];
+      set ent:long [];
     }
   }
 }
