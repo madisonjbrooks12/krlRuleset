@@ -7,7 +7,6 @@ A rulset which stores trip information
     author "Madison Brooks"
     logging on
     sharing on
-    provides all_trips
     provides trips
     provides long_trips
     provides short_trips
