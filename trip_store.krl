@@ -11,13 +11,19 @@ A rulset which stores trip information
     provides long_trips
   }
   global {
-    all_trips = function() {
-      all_trips = ent:trips;
-      all_trips
+    trips = function() {
+      trips = ent:trips;
+      trips
     };
     long_trips = function() {
       long = ent:long;
       long
+    };
+    short_trips = function() {
+      all = ent:trips;
+      long = ent:long;
+      short = all.difference(long);
+      short
     };
   }
   rule collect_trips {
@@ -26,7 +32,7 @@ A rulset which stores trip information
       mileage = event:attr("mileage").klog("our passed in mileage from collect_trips: ");
       timestamp = time:now();
       timestamp_str = timestamp.as("str");
-      init = {"_0": {
+      init = {"_0" : {
                     "mileage" : "0"
                     }
               };
@@ -50,7 +56,7 @@ A rulset which stores trip information
       mileage = event:attr("mileage").klog("our passed in mileage from collect_long_trips: ");
       timestamp = time:now();
       timestamp_str = timestamp.as("str");
-      init = {"_0": {
+      init = {"_0" : {
                     "mileage" : "0"
                     }
               };
@@ -66,6 +72,19 @@ A rulset which stores trip information
     always {
       set ent:long init if not ent:long{["_0"]};
       set ent:long{[timestamp_str]} new_trip;
+    }
+  }
+  rule clear_trips {
+    select when car trip_reset
+    pre {
+      init = {"_0" : {
+                    "mileage" : "0"
+                    }
+              };
+    }
+    always {
+      set ent:trips init;
+      set ent:long init;
     }
   }
 }
