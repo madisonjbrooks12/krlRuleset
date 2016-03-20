@@ -1,12 +1,13 @@
 ruleset trip_store {
-  meta {
-    name "Trip Store"
-    description <<
+ meta {
+   name "Trip Store"
+   description <<
 A rulset which stores trip information
 >>
     author "Madison Brooks"
     logging on
     sharing on
+    provides all_trips
     provides trips
     provides long_trips
     provides short_trips
@@ -34,14 +35,12 @@ A rulset which stores trip information
       timestamp = time:now();
       timestamp_str = timestamp.as("str");
       init = {"_0" : {
-                    "mileage" : "0"
-                    }
+                     "mileage" : "0"
+                     }
               };
-      new_trip = [{
-                  "timestamp" : timestamp_str,
+      new_trip = {
                   "mileage" : mileage
-                  }];
-      trips = trips();
+                  };
     }
     {
       send_directive("collect") with
@@ -49,7 +48,8 @@ A rulset which stores trip information
       time_now = timestamp_str;
     }
     always {
-      set ent:trips trips.append(new_trip);
+      set ent:trips init if not ent:trips{["_0"]};
+      set ent:trips{[timestamp_str]} new_trip;
     }
   }
   rule collect_long_trips {
@@ -59,14 +59,12 @@ A rulset which stores trip information
       timestamp = time:now();
       timestamp_str = timestamp.as("str");
       init = {"_0" : {
-                    "mileage" : "0"
-                    }
+                     "mileage" : "0"
+                     }
               };
-      new_trip = [{
-                  "timestamp" : timestamp_str,
+      new_trip = {
                   "mileage" : mileage
-                  }];
-      long = long_trips();
+                  };
     }
     {
       send_directive("collect_long") with
@@ -74,20 +72,21 @@ A rulset which stores trip information
       time_now = timestamp_str;
     }
     always {
-      set ent:long long.append(new_trip);
+      set ent:long init if not ent:long{["_0"]};
+      set ent:long{[timestamp_str]} new_trip;
     }
   }
   rule clear_trips {
     select when car trip_reset
     pre {
       init = {"_0" : {
-                    "mileage" : "0"
-                    }
+                     "mileage" : "0"
+                     }
               };
     }
     always {
-      set ent:trips [];
-      set ent:long [];
+      set ent:trips init;
+      set ent:long init;
     }
   }
 }
