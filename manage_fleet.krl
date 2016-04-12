@@ -20,7 +20,7 @@ Manages a fleet of child pico vehicles
   rule create_vehicle {
     select when car new_vehicle
     pre {
-      child_name = "Vehicle" + event:attr("name");
+      child_name = event:attr("name");
       child_attributes = {}
         .put(["Prototype_rids"],"b507732x2.prod")
         .put(["name"],child_name)
